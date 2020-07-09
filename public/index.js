@@ -89,7 +89,7 @@ window.getOtp = async () => {
   console.log("cardData",idToPlayingCard.cardData);
   document.getElementById("idToCard4Suit1").innerText = idToPlayingCard.cardSuits;
   document.getElementById("idToCardNumber1").innerText = idToPlayingCard.cardNumber;
-  document.getElementById("idToCardData").innerText = idToPlayingCard.cardData;
+  document.getElementById("idToCardData1").innerText = idToPlayingCard.cardData;
 
 	//QR code に埋め込みできるアクセス者ロケーション情報
 	//QR code otp
