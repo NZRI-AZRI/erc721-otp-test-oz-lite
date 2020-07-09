@@ -1,0 +1,297 @@
+<!doctype html>
+<html>
+<head>
+    <!-- icon -->
+    <link rel="icon" 
+    type="image/ico" 
+    href="https://otp-testnet-nzri.herokuapp.com/favicon.ico">
+    
+    <title>ワンタイムパスワード生成及び認証ページ</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- web3 js -->
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+
+    <!--portis -->
+    <script
+    src="https://cdn.jsdelivr.net/npm/@portis/web3@2.0.0-beta.54/umd/index.js"
+    integrity="sha256-pPwrJF/X2v9erIHBoY3ZWb4P/cRx3j3/zyvQvycabs0="
+    crossorigin="anonymous"></script>
+
+    <!--QR code write -->
+    <script type="text/javascript" src="./public/qrcode.min.js"></script>
+    
+    <script
+    src="https://code.jquery.com/jquery-3.5.0.min.js"
+    integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+    crossorigin="anonymous"></script>
+
+    <style type="text/css">
+        .box4{
+        font-size: 62.5%;
+        padding: 8px 19px;
+        margin: 2em 0;
+        color: #2c2c2f;
+        background: #cde4ff;
+        border-top: solid 5px #5989cf;
+        border-bottom: solid 5px #5989cf;
+        }
+        .box4 p {
+            margin: 0; 
+            padding: 0;
+        }
+        .box7{
+        font-size: 62.5%;
+        padding: 0.5em 1em;
+        margin: 2em 0;
+        color: #232323;
+        background: #fff8e8;
+        border-left: solid 10px #6efff3;
+        }
+        .box7 p {
+            margin: 0; 
+            padding: 0;
+        }
+        .box8 {
+        font-size: 62.5%;
+        padding: 0.5em 1em;
+        margin: 2em 0;
+        color: #232323;
+        background: #fff8e8;
+        border-left: solid 10px #ffc06e;
+        }
+        .box8 p {
+            margin: 0; 
+            padding: 0;
+        }
+        .box9 {
+        font-size: 62.5%;
+        padding: 0.5em 1em;
+        margin: 2em 0;
+        color: #232323;
+        background: #fff8e8;
+        border-left: solid 10px #7aff6e;
+        }
+        .box9 p {
+            margin: 0; 
+            padding: 0;
+        }
+        .box10 {
+        font-size: 62.5%;
+        padding: 0.5em 1em;
+        margin: 2em 0;
+        color: #232323;
+        background: #fff8e8;
+        border-left: solid 10px #fdff6e;
+        }
+        .box10 p {
+            margin: 0; 
+            padding: 0;
+        }
+    </style>
+
+<script type="text/javascript">
+    $(function(){	
+       console.log(ipv4Str);
+    });
+</script>
+</head>
+
+<body>
+
+    <?php
+        $php_ipv4 = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        $php_json_ipv4 = json_encode( $php_ipv4 );
+    ?>
+
+    <script type="text/javascript">
+        var ipv4Str = JSON.parse('<?php echo $php_json_ipv4; ?>');
+    </script>
+
+
+<!--オーナー式ワンタイムパスワード-->
+<div class="box4">
+    <h1>Get OTP (Rinkeby TEST NET ONLY)</h1><br>
+    <h2>あなたのメタマスクのアドレスと所持するトークンのIDから固定パスワードを生成します </h2>
+    <span>
+    <div class="box8">
+        <p>【前提】メタマスクの現在アドレスが当ウェブアプリトークンの付与されたアドレスであることを確認してください。</p>
+        <p>※メタマスクのネットワークがrinkebyか確認してください。</p>
+        <br><br><br>
+        <p>・次に入力欄にあなたのトークンIDを入力。入力後、[ get your OTP ]ボタンをクリックしてください</p>
+        <p>(正しい条件では以下にあなたのウォレットに対応したワンタイムパスコードとQRコード、トランプカードの変数情報が表示されます。)</p>
+        <br><br><br>
+ 
+    </div>
+
+    <div class="box7">
+        <p>・入力欄にあなたのトークンIDとパスワードを入力。入力後、get your OTPボタンをクリック</p>
+    </div>
+    <input id="nftidtoknowotp1" type="number" placeholder="enter your valid-Otp nft tokenId" style="width:200px" />
+    <button onclick="getOtp();"> get your OTP</button>
+
+    <!--コントラクトの基本情報-->
+    <div class="box9">
+        <p>・このコントラクトの名前</p>
+        <p id="contractname"> </p>
+        <p>・このコントラクトのアドレス</p>
+        <p id="contractAdr"> </p>
+        <p>・このコントラクトのネットワークID</p>
+        <p id="netid"> </p>
+        <p>・ネットワークブロック番号</p>
+        <p id="netBn"> </p>
+        <!--OTPコード-->
+        <p>・ワンタイムパスコード (オーナーによる任意変更方式)</p>
+        <p id="showGetYourOTP1"> </p>
+        <button onclick="clipBoardWrite('showGetYourOTP1');"> クリップボードにパスワードコピー</button>
+        <!--nft情報表示-->
+        <p>・あなたのイーサリアムアドレス</p>
+        <p id="youraddress11"> </p>  
+        <p>・あなたのNFTトークンID (tokenID)</p>
+        <p id="nftid1"> </p>
+    </div>
+
+    <!--トランプカード情報表示-->
+    <div class="box10">   
+
+        <p>・あなたのNFTトランプカードの図柄</p>
+        <p>(0-スペード,1-クラブ,2-ハート,3-ダイヤです)</p>
+        <p id="idToCard4Suit1"> </p>
+        <p>・あなたのNFTトランプカードの番号</p>
+        <p>(変数0から始まります。0=A,1=2,2=3 ... 9=10,10=J,11=Q,12=K,13=Jokerに対応します。)</p>
+        <p id="idToCardNumber1"> </p>
+    </div>
+    
+        <!--OTPコードをQRコード表示-->
+        <div id="qrcode1">
+            <p id="qrcode1time"></p>
+            
+        </div>
+
+    </span>
+    <br><br><br>
+
+    <h2>auth Your OTP and Link page</h2>
+    <span>
+        <div class="box8">
+            <p>・入力欄にあなたのトークンIDとパスワードを入力。入力後、Auth your OTP and go to next pageボタンをクリック</p>
+            <p>・認証結果が正しい時、ログイン処理が行われ、次のページに遷移します。</p>
+        </div>
+        <input id="nftid2auth1" type="number" placeholder="put tokenId to Auth OTP" style="width:200px" />
+        <input id="otp2auth1" type="text" placeholder="put your otp" style="width:200px" />
+
+        <div class="box10">
+            <p>・認証結果</p>
+            <p id="showAuthResult1"> 認証結果 true or false</p>
+        </div>
+    
+        <button onclick="authOtp();">Auth your OTP and go to next page</button>
+    </span>
+    <br><br><br>
+</div>
+
+
+<!--時刻式　７桁　ワンタイムパスワード-->
+<div class="box4">
+    <h1>Get TOTP and Contents</h1><br>
+    <h2>get Your 7 number TOTP </h2>
+    <span>
+        <div class="box7">
+            <p>・入力欄にあなたのトークンIDを入力。入力後、get your timeOTPボタンをクリック</p>
+        </div>
+        <input id="nftidtoknowotp3" type="number" placeholder="enter your valid-Otp nft tokenId" style="width:200px" />
+        
+        <p>・ワンタイムパスコード (ブロックチェーン上での時刻同期を利用)</p>
+        <p id="showGetYourOTP3"> </p>
+        <button onclick="clipBoardWrite('showGetYourOTP3');"> クリップボードにパスワードコピー</button>
+
+        <p>・あなたのイーサリアムアドレス</p>
+        <p id="youraddress13"> </p>  
+        <p>・あなたのNFTトークンID (tokenID)</p>
+        <p id="nftid3"> </p>
+        <p>・このコントラクトの名前</p>
+        <p id="contractname3"> </p>
+        <button onclick="getTotp7num()"> get your seven number totp</button>
+        <p>OTPコードをQRコード表示</p>
+        
+        <div id="qrcode3">
+            <p id="qrcode3time"></p>
+        </div>
+        
+    </span>
+
+    <br><br><br>
+    <h2>auth Your 7 number TOTP and Link next page</h2>
+    <span>
+        <div class="box7">
+            <p>・入力欄にあなたのトークンIDとパスワードを入力。入力後、Auth your OTP and go to next pageボタンをクリック</p>
+            <p>・認証結果が正しい時、ログイン処理が行われ、次のページに遷移します。</p>
+        </div>
+        <input id="nftid2auth3" type="number" placeholder="put tokenId to Auth OTP" style="width:200px" />
+        <input id="otp2auth3" type="text" placeholder="put your otp" style="width:200px" />
+        <p>・認証結果</p>
+        <p id="showAuthResult3"> 認証結果 true or false</p>
+        <button onclick="authTotp7num()">Auth your OTP and go to next page</button>
+    </span>
+    <br><br><br>
+</div>
+
+
+<!--時刻式　７桁　ワンタイムパスワード-->
+<div class="box4">
+    <h1>自動ログイン機能</h1><br>
+    <h2>javascript内部でパスワード取得と認証を行い、オートログインします。トークンIDが必要です。</h2>
+    <span>
+        <div class="box7">
+            <p>・入力欄にあなたのトークンIDを入力。入力後、自動ログインボタンをクリック</p>
+            <p>javascriptとメタマスクが連携しログイン処理を行います。お客様のトークンID入力が必要です。</p>
+            <p>・認証結果が正しい時、ログイン処理が行われ、次のページに遷移します。</p>
+        </div>
+        <input id="nftidtoknowotp4" type="number" placeholder="enter your valid nft tokenID" style="width:200px" />
+        
+        <button onclick="autoLoginBy7num()"> 自動ログイン</button>
+    </span>
+</div>
+
+
+
+<!--  index.jsよりもよりも先に読み込み  -->
+<script type="text/javascript" src="./public/abiauth.js"></script>
+<script type="text/javascript" src="./public/abigene.js"></script>
+
+<!--メインスクリプト -->
+<script type="text/javascript" src="./public/index.js"></script>
+
+<!--免責事項-->
+<p>―免責事項―</p>
+<p>※当サイトはワンタイムパスワードのテストページです。</p>
+<p>【重要】パスワード認証後ログイン先のページには何もありません。またこのパスワード認証結果に対応する現実世界でのサービスはありません。</p>
+<p>※当サイトはお客様の閲覧履歴等を保存していません。</p>
+<p>ただし、IPアドレスもしくはセッションIDとイーサリアムアドレスは何らかの形で取得し情報処理を行うことがあります。</p>
+<p>これは秘密鍵漏洩があるとき、同一秘密鍵の異なる環境からのアクセスを検知するためです。（コンテンツへの不正アクセス防止のためです。）</p>
+<p>当サイトはweb3.jsを利用しています。イーサリアムのRinkebyにアクセス出来るようにしてください。</p>
+<!--利用している技術やモジュールのMITライセンス表記-->
+
+<p>―利用したテクノロジー及びライセンス表記―</p>
+<p>Ethereumネットワークを使用。(OpenSorceLicense)  </p>
+<p>ERC721コードのベース部分はopen-zeppelin-contract(MIT License)を使用。 </p>
+<p>web3.js(GPL3 License) をイーサリアムアクセスに利用。</p>
+<p>メタマスクがない場合、Portis API（MIT License https://www.portis.io/（MIT License ））が使用可能。</p>
+<p>qrcode.js（MIT License　https://davidshimjs.github.io/qrcodejs/）を使用。 </p>
+<p>jquery.jsを使用。 </p>
+
+
+<!--footer-->
+<footer>Author NZRI (https://github.com/NZRI-AZRI)</footer>
+
+</body>
+
+</html>
+<!--
+    参考元・ライブラリ・外部モジュール
+    css；https://saruwakakun.com/html-css/reference/box  暫定的に引用し対応
+    web3.min.js
+    0xcert ERC-721 base sol File.
+    qrcode.min.js
+-->
