@@ -83,9 +83,13 @@ window.getOtp = async () => {
   //playing card data
   let idToPlayingCard =  await geneInstance.methods.idToPlayingCard(nftIdGetOtp).call({from: myAccount});
   console.log(idToPlayingCard);
-  console.log("suits",idToPlayingCard.cardSuits);
-  console.log("Number",idToPlayingCard.cardNumber);
 
+  console.log("cardSuits",idToPlayingCard.cardSuits);
+  console.log("cardNumber",idToPlayingCard.cardNumber);
+  console.log("cardData",idToPlayingCard.cardData);
+  document.getElementById("idToCard4Suit1").innerText = idToPlayingCard.cardSuits;
+  document.getElementById("idToCardNumber1").innerText = idToPlayingCard.cardNumber;
+  document.getElementById("idToCardData").innerText = idToPlayingCard.cardData;
 
 	//QR code に埋め込みできるアクセス者ロケーション情報
 	//QR code otp

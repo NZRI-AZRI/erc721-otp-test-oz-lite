@@ -29,8 +29,22 @@
 
     <style type="text/css">
         html { 
-        font-size: 62.5%; /* font-size 1em = 10px on default browser settings */ 
+        font-size: 70%; 
+        /* font-size 1em = 10px =62.5% on default browser settings */ 
         } 
+        .box0{/* 免責事項など表記 */ 
+        font-size: 50%; 
+        padding: 8px 19px;
+        margin: 2em 0;
+        color: #2c2c2f;
+        background: #cde4ff;
+        border-top: solid 5px #cde4ff;
+        border-bottom: solid 5px #cde4ff;
+        }
+        .box0 p {
+            margin: 0; 
+            padding: 0;
+        }
         .box4{
         padding: 8px 19px;
         margin: 2em 0;
@@ -160,6 +174,8 @@
         <p>・あなたのNFTトランプカードの番号</p>
         <p>(変数0から始まります。0=A,1=2,2=3 ... 9=10,10=J,11=Q,12=K,13=Jokerに対応します。)</p>
         <p id="idToCardNumber1"> </p>
+        <p>・カードデータ兼シリアル番号（16バイト）</p>
+        <p id="idToCardData1"> </p>
     </div>
     
         <!--OTPコードをQRコード表示-->
@@ -262,23 +278,28 @@
 <!--メインスクリプト -->
 <script type="text/javascript" src="./public/index.js"></script>
 
-<!--免責事項-->
-<p>―免責事項―</p>
-<p>※当サイトはワンタイムパスワードのテストページです。</p>
-<p>【重要】パスワード認証後ログイン先のページには何もありません。またこのパスワード認証結果に対応する現実世界でのサービスはありません。</p>
-<p>※当サイトはお客様の閲覧履歴等を保存していません。</p>
-<p>ただし、IPアドレスもしくはセッションIDとイーサリアムアドレスは何らかの形で取得し情報処理を行うことがあります。</p>
-<p>これは秘密鍵漏洩があるとき、同一秘密鍵の異なる環境からのアクセスを検知するためです。（コンテンツへの不正アクセス防止のためです。）</p>
-<p>当サイトはweb3.jsを利用しています。イーサリアムのRinkebyにアクセス出来るようにしてください。</p>
-<!--利用している技術やモジュールのMITライセンス表記-->
 
-<p>―利用したテクノロジー及びライセンス表記―</p>
-<p>Ethereumネットワークを使用。(OpenSorceLicense)  </p>
-<p>ERC721コードのベース部分はopen-zeppelin-contract(MIT License)を使用。 </p>
-<p>web3.js(GPL3 License) をイーサリアムアクセスに利用。</p>
-<p>メタマスクがない場合、Portis API（MIT License https://www.portis.io/（MIT License ））が使用可能。</p>
-<p>qrcode.js（MIT License　https://davidshimjs.github.io/qrcodejs/）を使用。 </p>
-<p>jquery.jsを使用。 </p>
+<div class="box0">
+    <!--免責事項-->
+    <p>―免責事項―</p>
+    <p>※当サイトはワンタイムパスワードのテストページです。</p>
+    <p>【重要】パスワード認証後ログイン先のページには何もありません。またこのパスワード認証結果に対応する現実世界でのサービスはありません。</p>
+    <p>※当サイトはお客様の閲覧履歴等を保存していません。</p>
+    <p>ただし、IPアドレスもしくはセッションIDとイーサリアムアドレスは何らかの形で取得し情報処理を行うことがあります。</p>
+    <p>これは秘密鍵漏洩があるとき、同一秘密鍵の異なる環境からのアクセスを検知するためです。（コンテンツへの不正アクセス防止のためです。）</p>
+    <p>当サイトはweb3.jsを利用しています。イーサリアムのRinkebyにアクセス出来るようにしてください。</p>
+    <!--利用している技術やモジュールのMITライセンス表記-->
+
+    <p>―利用したテクノロジー及びライセンス表記―</p>
+    <p>Ethereumネットワークを使用。(OpenSorceLicense)  </p>
+    <p>ERC721コードのベース部分はopen-zeppelin-contract(MIT License)を使用。 </p>
+    <p>web3.js(GPL3 License) をイーサリアムアクセスに利用。</p>
+    <p>メタマスクがない場合、Portis API（MIT License https://www.portis.io/（MIT License ））が使用可能。</p>
+    <p>qrcode.js（MIT License　https://davidshimjs.github.io/qrcodejs/）を使用。 </p>
+    <p>jquery.jsを使用。 </p>
+</div>
+
+
 
 
 <!--footer-->
